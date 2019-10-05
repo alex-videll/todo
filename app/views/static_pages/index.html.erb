@@ -16,11 +16,18 @@
 
 
 <script>
-  $(function() {
+   $(function() {
     $('#new-form').submit(function(event) {
       event.preventDefault();
       var textbox = $('.new-todo');
-      console.log("Task: ", textbox.val());
+      var payload = {
+        task: {
+          title: textbox.val()
+        }
+      };
+      $.post("/tasks", payload).success(function(data) {
+        console.log("Successful HTTP Request");
+      });
     });
 
 
@@ -49,7 +56,7 @@
 
       var doneValue = Boolean($(e.target).is(':checked'));
 
-      $.post("/tasks/" + itemId, {
+      $.post("/tasks" + itemId, {
         _method: "PUT",
         task: {
           done: doneValue
